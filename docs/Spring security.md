@@ -402,14 +402,15 @@ public class RestUserController {
 }
 ```
 
-### 예외처리
+## 예외처리
 1. Jwt 토큰 없이 api 호출
 2. 만료된 Jwt 토큰으로 api 호출
 3. 리소스에 권한이 없는 경우
 
 이 같은 경우를 예상할 수 있는데 실제로 예외가 처리 되지 않는다. 이는 필터링의 순서 때문인데. ControllerAdvise는 Spring이 처리 가능한 영역까지 request가 도달해야 처리할 수 있지만 Spring security는 Spring앞단에서 filter처리가 되기 때문에 위의 exception은 Spring의 DispatcherServlet까지 도달하지 않게된다.
 
-- 1,2번 : 토큰 검증 단에서 프로세스가 끝나기 떄문에 Spring security에서 제공하는 AuthenticationEntryPoint를 상속받아 재정의 한다.
+### 1,2번 
+- 토큰 검증 단에서 프로세스가 끝나기 떄문에 Spring security에서 제공하는 AuthenticationEntryPoint를 상속받아 재정의 한다.
 ```java
 @Component
 public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
@@ -479,4 +480,38 @@ protected void configure(HttpSecurity http) throws Exception {
         .and()
             .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class); // jwt token 필터를 id/password 인증 필터 전에 넣는다
 }
+```
+
+### 3번 
+- JWT는 정상이지만 가지지 못한 권한의 리소스를 접근할 때 발생하는 오류. AccessDeniedHandler를 상속받아 커스터마이징 한다.
+```java
+@Component
+public class CustomAccessDeniedHandler implements AccessDeniedHandler {
+    @Override
+	   public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException exception) throws IOException, ServletException {
+        response.sendRedirect("/exception/accessdenied");
+	   }
+}
+```
+
+- ExceptionController 수정
+```java
+@GetMapping(value = "accessdenied")
+public CommonResult accessDeniedException() {
+    throw new AccessDeniedException("");
+}
+```
+
+- ExceptionAdvice 수정
+```java
+@ExceptionHandler(AccessDeniedException.class)
+public CommonResult AccessDeniedException(HttpServletRequest request, AccessDeniedException e) {
+    return responseService.getFailResult();
+}
+```
+
+- Security Config에 CustomAccessDeniedHandler 설정 추가
+```java
+.and()
+    .exceptionHandling().accessDeniedHandler(new CustomAccessDeniedHandler())
 ```
