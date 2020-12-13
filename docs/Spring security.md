@@ -186,3 +186,90 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 }
 ```
+5. CustomUserDetailService 정의
+
+토큰에 세팅된 유저 정보로 회원정보를 조회하는 UserDetailsService를 재정의
+```java
+@RequiredArgsConstructor
+@Service
+public class CustomUserDetailService implements UserDetailsService {
+    private final UserRepository userRepository;
+    @Override
+    public UserDetails loadUserByUsername(String userPk) {
+        return userRepository.findById(Long.valueOf(userPk)).orElseThrow(UserNotFoundException::new);
+    }
+}
+```
+
+6. User 수정
+
+Spring security의 보안을 적용하기 위해 User entity에 UserDetails class를 상속받아 추가 정보를 재정의
+
+roles는 회원이 가지고 있는 권한이고 기본 "ROLE_USER"가 세팅되며 여러개가 세팅 될 수 있음.
+
+- getUsername : security에서 사용하는 회원 구분 id
+- isAccountNonExpired : 계정이 만료가 안되었는지
+- isAccountNonLocked : 계정이 잠기지 않았는지
+- isCredentialsNonExpired : 계정 패스워드가 만료 안되었는지
+- isEnagled : 계정이 사용 가능한지
+> Json 결과로 출력 안할 때에는 @JsonProperty(access = JsonProperty.Access.WRITE_ONLY) 어노테이션 
+```java
+@Builder
+@Getter
+@Entity // jpa entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "user") // user 테이블에 매핑
+public class User implements UserDetails {
+    @Id // pk
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+    @Column(nullable = false, unique = true, length = 30)
+    private String uid;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @Column(nullable = false, length = 100)
+    private String password;
+    @Column(nullable = false, length = 100)
+    private String name;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @Builder.Default
+    private List<String> roles = new ArrayList<>();
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return roles.stream()
+                .map(SimpleGrantedAuthority::new).collect(Collectors.toList());
+    }
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @Override
+    public String getUsername() {
+        return this.uid;
+    }
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+}
+```
