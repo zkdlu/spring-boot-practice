@@ -175,3 +175,37 @@ public class UserController {
 > - @ApiOperation
 > - @ApiParam
 > - http://localhost:8080/swagger-ui.htm
+
+### Rest api
+- 결과 데이터는 기존의 결과 데이터 + api 요청결과로 구성한다.
+1. 공통 모델 작성
+```java
+@Getter
+@Setter
+public class CommonResult {
+    @ApiModelProperty(value = "응답 성공여부 : true/false")
+    private boolean success;
+
+    @ApiModelProperty(value = "응답 코드 번호 : 비정상 < 0 <= 정상")
+    private int code;
+
+    @ApiModelProperty(value = "응답 메시지")
+    private String msg;
+}
+```
+2. 단일 응답을 담는 모델
+```java
+@Getter
+@Setter
+public class SingleResult<T> extends CommonResult{
+    private T data;
+}
+```
+3. 리스트 응답을 담는 모델
+```java
+@Getter
+@Setter
+public class ListResult<T> extends CommonResult {
+    private List<T> list;
+}
+```
