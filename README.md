@@ -1,7 +1,7 @@
-### [Freemarker](https://github.com/zkdlu/spring-boot-practice/blob/main/docs/Freemarker.md)
+### [1. Freemarker](https://github.com/zkdlu/spring-boot-practice/blob/main/docs/Freemarker.md)
 
-### [H2 + JPA](https://github.com/zkdlu/spring-boot-practice/blob/main/docs/h2-jpa.md)
+### [2. H2 + JPA](https://github.com/zkdlu/spring-boot-practice/blob/main/docs/h2-jpa.md)
 
-### [Swagger 문서](https://github.com/zkdlu/spring-boot-practice/blob/main/docs/swagger.md)
+### [3. Swagger 문서](https://github.com/zkdlu/spring-boot-practice/blob/main/docs/swagger.md)
 
-### [Rest api](https://github.com/zkdlu/spring-boot-practice/blob/main/docs/Restapi.md)
+### [4. Rest api](https://github.com/zkdlu/spring-boot-practice/blob/main/docs/Restapi.md)
