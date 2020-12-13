@@ -46,6 +46,7 @@ public class HelloController {
 1. 의존성 추가
 ```gradle
 dependencies {
+  implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
   runtimeOnly 'com.h2database:h2'
 }
 ```
