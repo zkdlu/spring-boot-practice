@@ -65,4 +65,21 @@ spring:
     hibernate:
       ddl-auto: update
 ```
+3. Entity class 작성
+```java
+@Builder 
+@Entity // jpa entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "user") // user 테이블에 매핑
+public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+    @Column(nullable = false, unique = true, length = 30)
+    private String uid;
+    @Column(nullable = false, length = 100)
+    private String name;
+}
 
+```
