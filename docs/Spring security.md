@@ -43,3 +43,73 @@
 2. 클라이언트는 이 Jwt토큰을 이용하여 권한이 필요한 리소스를 서버에 요청하는데 사용
 3. api 서버는 클라이언트에게 전달받은 Jwt 토큰이 유효한지 확인하고 담겨있는 회원정보를 확인
  
+ ### 인증 및 권한 부여
+ 1. 의존성 추가
+ ```gradle
+ dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'io.jsonwebtoken:jjwt:0.9.1'
+}
+ ```
+ 2. JwtTokenProvider 생성
+```java
+@RequiredArgsConstructor
+@Component
+public class JwtTokenProvider {
+    @Value("spring.jwt.secret")
+    private String secretKey;
+
+    private long tokenValidMillisecond = 1000L * 60 * 60;
+
+    private final UserDetailsService userDetailsService;
+
+    @PostConstruct
+    protected void init() {
+        secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
+    }
+
+    // Jwt 토큰 생성
+    public String createToken(String userPk, List<String> roles) {
+        Claims claims = Jwts.claims().setSubject(userPk);
+        claims.put("roles", roles);
+        Date now = new Date();
+        return Jwts.builder()
+                .setClaims(claims) // 데이터
+                .setIssuedAt(now) // 토큰 발행일자
+                .setExpiration(new Date(now.getTime() + tokenValidMillisecond)) // set Expire Time
+                .signWith(SignatureAlgorithm.HS256, secretKey) // 암호화 알고리즘, secret값 세팅
+                .compact();
+    }
+
+    // Jwt 토큰으로 인증 정보를 조회
+    public Authentication getAuthentication(String token) {
+        UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUserPk(token));
+        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
+    }
+
+    // Jwt 토큰에서 회원 구별 정보 추출
+    public String getUserPk(String token) {
+        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
+    }
+
+    // Request의 Header에서 token 파싱 : "X-AUTH-TOKEN: jwt토큰"
+    public String resolveToken(HttpServletRequest req) {
+        return req.getHeader("X-AUTH-TOKEN");
+    }
+
+    // Jwt 토큰의 유효성 + 만료일자 확인
+    public boolean validateToken(String jwtToken) {
+        try {
+            Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken);
+            return !claims.getBody().getExpiration().before(new Date());
+        } catch (Exception e) {
+            return false;
+        }
+    }
+}
+```
+```yml
+spring:
+  jwt:
+    secret: govlepel@$&
+```
