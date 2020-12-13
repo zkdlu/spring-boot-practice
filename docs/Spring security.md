@@ -297,3 +297,124 @@ public class EmailSigninFailedException extends RuntimeException {
     }
 }
 ```
+9. 가입/로그인 컨트롤러 추가
+```java
+@Api(tags = {"2. Sign"})
+@RequiredArgsConstructor
+@RestController
+@RequestMapping(value = "/v2")
+public class SignController {
+    private final UserRepository userRepository;
+    private final JwtTokenProvider jwtTokenProvider;
+    private final ResponseService responseService;
+    private final PasswordEncoder passwordEncoder;
+
+    @ApiOperation(value = "로그인", notes = "이메일 회원 로그인을 한다.")
+    @PostMapping(value = "/signin")
+    public SingleResult<String> signin(@ApiParam(value = "회원ID : 이메일", required = true) @RequestParam String id,
+                                       @ApiParam(value = "비밀번호", required = true) @RequestParam String password) {
+        User user = userRepository.findByUid(id).orElseThrow(EmailSigninFailedException::new);
+        if (!passwordEncoder.matches(password, user.getPassword()))
+            throw new EmailSigninFailedException();
+
+        return responseService.getSingleResult(jwtTokenProvider.createToken(String.valueOf(user.getId()), user.getRoles()));
+    }
+
+    @ApiOperation(value = "가입", notes = "회원가입을 한다.")
+    @PostMapping(value = "/signup")
+    public CommonResult signin(@ApiParam(value = "회원ID : 이메일", required = true) @RequestParam String id,
+                               @ApiParam(value = "비밀번호", required = true) @RequestParam String password,
+                               @ApiParam(value = "이름", required = true) @RequestParam String name) {
+
+        userRepository.save(User.builder()
+                .uid(id)
+                .password(passwordEncoder.encode(password))
+                .name(name)
+                .roles(Collections.singletonList("ROLE_USER"))
+                .build());
+        return responseService.getSuccessResult();
+    }
+}
+```
+10. passwordEncoder bean 추가
+```java
+@SpringBootApplication
+public class RestApplication {
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    }
+}
+```
+
+11. UserController 수정
+- 유효한 Jwt 토큰을 설정해야만 사용할 수 있또록 Header에 X-AUTH-Token을 인자로 받도록 한다.
+```java
+@Api(tags = {"2. User Rest"})
+@RequiredArgsConstructor
+@RestController
+@RequestMapping(value = "/v2")
+public class RestUserController {
+    private final UserRepository userRepository;
+    private  final ResponseService responseService;
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
+    })
+    @ApiOperation(value = "회원 조회", notes = "전체 회원 조회")
+    @GetMapping(value = "/user")
+    public ListResult<User> findAllUser() {
+        return responseService.getListResult(userRepository.findAll());
+    }
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
+    })
+    @ApiOperation(value = "회원 단건 조회", notes = "userId로 회원을 조회한다")
+    @GetMapping(value = "/user/{id}")
+    public SingleResult<User> findUserById(@ApiParam(value = "회원ID", required = true) @PathVariable long id) {
+        return responseService.getSingleResult(userRepository.findById(id).orElseThrow(UserNotFoundException::new));
+    }
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
+    })
+    @ApiOperation(value = "회원 입력", notes = "회원을 입력")
+    @PostMapping(value = "/user")
+    public SingleResult<User> save(@ApiParam(value = "회원아이디", required = true) @RequestParam String uid,
+                                  @ApiParam(value = "회원이름", required = true) @RequestParam String name) {
+        User user = User.builder()
+                .uid(uid)
+                .name(name)
+                .build();
+        return responseService.getSingleResult(userRepository.save(user));
+    }
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
+    })
+    @ApiOperation(value = "회원 수정", notes = "회원정보를 수정한다")
+    @PutMapping(value = "/user")
+    public SingleResult<User> modify(
+            @ApiParam(value = "회원번호", required = true) @RequestParam long msrl,
+            @ApiParam(value = "회원아이디", required = true) @RequestParam String uid,
+            @ApiParam(value = "회원이름", required = true) @RequestParam String name) {
+        User user = User.builder()
+                .id(msrl)
+                .uid(uid)
+                .name(name)
+                .build();
+        return responseService.getSingleResult(userRepository.save(user));
+    }
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
+    })
+    @ApiOperation(value = "회원 삭제", notes = "userId로 회원정보를 삭제한다")
+    @DeleteMapping(value = "/user/{id}")
+    public CommonResult delete(@ApiParam(value = "회원번호", required = true) @PathVariable long id) {
+        userRepository.deleteById(id);
+        return responseService.getSuccessResult();
+    }
+}
+```
