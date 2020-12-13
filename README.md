@@ -107,3 +107,40 @@ public class UserController {
     }
 }
 ```
+
+### Swagger 문서
+1. 의존성 추가
+```gradle
+dependencies {
+    compile 'io.springfox:springfox-swagger-ui:2.9.2'
+    compile 'io.springfox:springfox-swagger2:2.9.2'
+}
+```
+2. Configuration 작성
+```java
+@Configuration
+@EnableSwagger2
+public class SwaggerConfig {
+    @Bean
+    public Docket swaggerApi() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .apiInfo(swaggerInfo())
+                .select()
+                .apis(RequestHandlerSelectors.basePackage("com.zkdlu.rest"))
+                .paths(PathSelectors.any())
+                .build()
+                .useDefaultResponseMessages(false); // 기본으로 세팅되는 200,401,403,404 메시지를 표시 하지 않음
+    }
+
+    private ApiInfo swaggerInfo() {
+        return new ApiInfoBuilder().title("REST API Documentation")
+                .description("Swaager Document")
+                .license("zkdlu")
+                .licenseUrl("localhost")
+                .version("1")
+                .build();
+    }
+}
+```
+> - basePackage 하단의 Controller를 문서화 한다.
+> - PathSelectors.ant("/v1/**") 로 v1로 시작하는 것만 문서화 시킬 수 있다.
