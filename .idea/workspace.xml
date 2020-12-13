@@ -2,7 +2,36 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="30089330-d7bf-4c6a-a4b9-153900aeaf59" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__io_jsonwebtoken_jjwt_0_9_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_springframework_boot_spring_boot_starter_security_2_4_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_springframework_security_spring_security_config_5_4_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_springframework_security_spring_security_core_5_4_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_springframework_security_spring_security_web_5_4_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/spring-boot-rest.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/zkdlu/rest/advice/ExceptionAdvice.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/zkdlu/rest/advice/exception/AuthenticationEntryPointException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/zkdlu/rest/advice/exception/EmailSigninFailedException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/zkdlu/rest/config/security/CustomAccessDeniedHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/zkdlu/rest/config/security/JwtAuthenticationFilter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/zkdlu/rest/config/security/JwtTokenProvider.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/zkdlu/rest/config/security/SecurityConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/zkdlu/rest/controller/exception/ExceptionController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/zkdlu/rest/controller/v2/SignController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/zkdlu/rest/service/CustomUserDetailService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/zkdlu/rest/controller/v2/SignControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/rest.main.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/rest.main.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/rest.test.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/rest.test.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/zkdlu/rest/RestApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/zkdlu/rest/RestApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/zkdlu/rest/controller/v2/RestUserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/zkdlu/rest/controller/v2/RestUserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/zkdlu/rest/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/zkdlu/rest/entity/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/zkdlu/rest/repo/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/zkdlu/rest/repo/UserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/zkdlu/rest/service/ResponseService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/zkdlu/rest/service/ResponseService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -31,6 +60,9 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Class" />
+        <option value="JUnit5 Test Class" />
+        <option value="JUnit4 Test Class" />
+        <option value="Arquillian JUnit Test Class" />
       </list>
     </option>
   </component>
@@ -40,6 +72,10 @@
   <component name="ProjectId" id="1laJFbTfUCpbKjq4aqFN1Pzyp78" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
+    <property name="Downloaded.Files.Path.Enabled" value="false" />
+    <property name="Repository.Attach.Annotations" value="false" />
+    <property name="Repository.Attach.JavaDocs" value="false" />
+    <property name="Repository.Attach.Sources" value="false" />
     <property name="RequestMappingsPanelOrder0" value="0" />
     <property name="RequestMappingsPanelOrder1" value="1" />
     <property name="RequestMappingsPanelWidth0" value="75" />
@@ -47,11 +83,24 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="Arquillian JUnit4" />
+    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.Arquillian JUnit4" value="" />
+    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit4" value="" />
+    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5" value="" />
     <property name="project.structure.last.edited" value="Problems" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.annotationProcessors" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.project.gradle" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="com.zkdlu.rest.controller.v2" />
+      <recent name="com.zkdlu.rest.repo" />
+    </key>
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -65,7 +114,83 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="JUnit.SignControllerTest">
+    <configuration name="SignControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="rest.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.zkdlu.rest.controller.v2.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.zkdlu.rest.controller.v2" />
+      <option name="MAIN_CLASS_NAME" value="com.zkdlu.rest.controller.v2.SignControllerTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserRepositoryTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="rest.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.zkdlu.rest.repo.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.zkdlu.rest.repo" />
+      <option name="MAIN_CLASS_NAME" value="com.zkdlu.rest.repo.UserRepositoryTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserRepositoryTest.findByUid" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="rest.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.zkdlu.rest.repo.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.zkdlu.rest.repo" />
+      <option name="MAIN_CLASS_NAME" value="com.zkdlu.rest.repo.UserRepositoryTest" />
+      <option name="METHOD_NAME" value="findByUid" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserRepositoryTest.whenFindByUid_thenReturnUser" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="rest.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.zkdlu.rest.repo.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.zkdlu.rest.repo" />
+      <option name="MAIN_CLASS_NAME" value="com.zkdlu.rest.repo.UserRepositoryTest" />
+      <option name="METHOD_NAME" value="whenFindByUid_thenReturnUser" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="com.zkdlu.rest.repo in rest.test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="rest.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.zkdlu.rest.repo.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.zkdlu.rest.repo" />
+      <option name="TEST_OBJECT" value="package" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="RestApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <module name="rest.main" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.zkdlu.rest.RestApplication" />
@@ -73,6 +198,15 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.SignControllerTest" />
+        <item itemvalue="JUnit.UserRepositoryTest" />
+        <item itemvalue="JUnit.UserRepositoryTest.findByUid" />
+        <item itemvalue="JUnit.UserRepositoryTest.whenFindByUid_thenReturnUser" />
+        <item itemvalue="JUnit.com.zkdlu.rest.repo in rest.test" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -87,7 +221,10 @@
       <workItem from="1607829168035" duration="1154000" />
       <workItem from="1607830350934" duration="114000" />
       <workItem from="1607830490758" duration="403000" />
-      <workItem from="1607830937819" duration="6537000" />
+      <workItem from="1607830937819" duration="14952000" />
+      <workItem from="1607846864773" duration="2100000" />
+      <workItem from="1607849018305" duration="290000" />
+      <workItem from="1607849325611" duration="549000" />
     </task>
     <servers />
   </component>
@@ -99,7 +236,9 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>
