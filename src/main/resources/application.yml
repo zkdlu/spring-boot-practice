@@ -17,7 +17,7 @@ spring:
     secret: govlepel@$&
   social:
     kakao:
-      client_id: eab1c5bb192f3e54dc1e68f6daa281f6
+      client_id: #Rest token
       redirect: /social/login/kakao
       url:
         login: https://kauth.kakao.com/oauth/authorize
