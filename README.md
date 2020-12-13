@@ -41,7 +41,7 @@ public class HelloController {
 }
 ```
 
-### H2
+### H2 + JPA
 
 1. 의존성 추가
 ```gradle
@@ -57,5 +57,9 @@ spring:
     driver-class-name: org.h2.Driver
     username: sa
     password: 
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    database: h2
+    show-sql: true
 ```
 
