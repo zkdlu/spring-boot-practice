@@ -52,87 +52,89 @@
 }
  ```
  2. JwtTokenProvider 생성
- - Jwt 토큰 생성 및 유효성 검증을 하는 컴포넌트
-```java
-@RequiredArgsConstructor
-@Component
-public class JwtTokenProvider {
-    @Value("spring.jwt.secret")
-    private String secretKey;
+ 
+  Jwt 토큰 생성 및 유효성 검증을 하는 컴포넌트
+  ```java
+  @RequiredArgsConstructor
+  @Component
+  public class JwtTokenProvider {
+      @Value("spring.jwt.secret")
+      private String secretKey;
 
-    private long tokenValidMillisecond = 1000L * 60 * 60;
+      private long tokenValidMillisecond = 1000L * 60 * 60;
 
-    private final UserDetailsService userDetailsService;
+      private final UserDetailsService userDetailsService;
 
-    @PostConstruct
-    protected void init() {
-        secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
-    }
+      @PostConstruct
+      protected void init() {
+          secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
+      }
 
-    // Jwt 토큰 생성
-    public String createToken(String userPk, List<String> roles) {
-        Claims claims = Jwts.claims().setSubject(userPk);
-        claims.put("roles", roles);
-        Date now = new Date();
-        return Jwts.builder()
-                .setClaims(claims) // 데이터
-                .setIssuedAt(now) // 토큰 발행일자
-                .setExpiration(new Date(now.getTime() + tokenValidMillisecond)) // set Expire Time
-                .signWith(SignatureAlgorithm.HS256, secretKey) // 암호화 알고리즘, secret값 세팅
-                .compact();
-    }
+      // Jwt 토큰 생성
+      public String createToken(String userPk, List<String> roles) {
+          Claims claims = Jwts.claims().setSubject(userPk);
+          claims.put("roles", roles);
+          Date now = new Date();
+          return Jwts.builder()
+                  .setClaims(claims) // 데이터
+                  .setIssuedAt(now) // 토큰 발행일자
+                  .setExpiration(new Date(now.getTime() + tokenValidMillisecond)) // set Expire Time
+                  .signWith(SignatureAlgorithm.HS256, secretKey) // 암호화 알고리즘, secret값 세팅
+                  .compact();
+      }
 
-    // Jwt 토큰으로 인증 정보를 조회
-    public Authentication getAuthentication(String token) {
-        UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUserPk(token));
-        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
-    }
+      // Jwt 토큰으로 인증 정보를 조회
+      public Authentication getAuthentication(String token) {
+          UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUserPk(token));
+          return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
+      }
 
-    // Jwt 토큰에서 회원 구별 정보 추출
-    public String getUserPk(String token) {
-        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
-    }
+      // Jwt 토큰에서 회원 구별 정보 추출
+      public String getUserPk(String token) {
+          return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
+      }
 
-    // Request의 Header에서 token 파싱 : "X-AUTH-TOKEN: jwt토큰"
-    public String resolveToken(HttpServletRequest req) {
-        return req.getHeader("X-AUTH-TOKEN");
-    }
+      // Request의 Header에서 token 파싱 : "X-AUTH-TOKEN: jwt토큰"
+      public String resolveToken(HttpServletRequest req) {
+          return req.getHeader("X-AUTH-TOKEN");
+      }
 
-    // Jwt 토큰의 유효성 + 만료일자 확인
-    public boolean validateToken(String jwtToken) {
-        try {
-            Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken);
-            return !claims.getBody().getExpiration().before(new Date());
-        } catch (Exception e) {
-            return false;
-        }
-    }
-}
-```
-```yml
-spring:
-  jwt:
-    secret: govlepel@$&
-```
+      // Jwt 토큰의 유효성 + 만료일자 확인
+      public boolean validateToken(String jwtToken) {
+          try {
+              Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken);
+              return !claims.getBody().getExpiration().before(new Date());
+          } catch (Exception e) {
+              return false;
+          }
+      }
+  }
+  ```
+  ```yml
+  spring:
+    jwt:
+      secret: govlepel@$&
+  ```
 3. JwtAuthenticationFilter 생성
-- Jwt 가 유효한 토큰인지 인증하기 위한 Filter
-```java
-public class JwtAuthenticationFilter extends GenericFilterBean {
-    private JwtTokenProvider jwtTokenProvider;
 
-    public JwtAuthenticationFilter(JwtTokenProvider jwtTokenProvider) {
-        this.jwtTokenProvider = jwtTokenProvider;
-    }
+  Jwt 가 유효한 토큰인지 인증하기 위한 Filter
+  ```java
+  public class JwtAuthenticationFilter extends GenericFilterBean {
+      private JwtTokenProvider jwtTokenProvider;
 
-    // Request로 들어오는 Jwt Token의 유효성을 검증(jwtTokenProvider.validateToken)하는 filter를 filterChain에 등록합니다.
-    @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        String token = jwtTokenProvider.resolveToken((HttpServletRequest) request);
-        if (token != null && jwtTokenProvider.validateToken(token)) {
-            Authentication auth = jwtTokenProvider.getAuthentication(token);
-            SecurityContextHolder.getContext().setAuthentication(auth);
-        }
-        chain.doFilter(request, response);
-    }
-}
-```
+      public JwtAuthenticationFilter(JwtTokenProvider jwtTokenProvider) {
+          this.jwtTokenProvider = jwtTokenProvider;
+      }
+
+      // Request로 들어오는 Jwt Token의 유효성을 검증(jwtTokenProvider.validateToken)하는 filter를 filterChain에 등록합니다.
+      @Override
+      public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+          String token = jwtTokenProvider.resolveToken((HttpServletRequest) request);
+          if (token != null && jwtTokenProvider.validateToken(token)) {
+              Authentication auth = jwtTokenProvider.getAuthentication(token);
+              SecurityContextHolder.getContext().setAuthentication(auth);
+          }
+          chain.doFilter(request, response);
+      }
+  }
+  ```
