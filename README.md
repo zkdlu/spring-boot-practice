@@ -11,3 +11,5 @@
 ### [6. Spring security, JWT](https://github.com/zkdlu/spring-boot-practice/blob/main/docs/Spring%20security.md)
 
 ### [7. Unit Test](https://github.com/zkdlu/spring-boot-practice/blob/main/docs/Unit%20Test.md)
+
+### [8. Social Login](https://github.com/zkdlu/spring-boot-practice/blob/main/docs/OAuth2.md)
