@@ -61,5 +61,7 @@ spring:
     database-platform: org.hibernate.dialect.H2Dialect
     database: h2
     show-sql: true
+    hibernate:
+      ddl-auto: update
 ```
 
