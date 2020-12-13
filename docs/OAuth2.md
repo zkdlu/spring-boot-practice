@@ -253,6 +253,51 @@ public class KakaoService {
 }
 ```
 
+- SignController에 카카오 회원가입 기능 추가
+```java
+@ApiOperation(value = "소셜 계정 가입", notes = "소셜 계정 회원가입을 한다.")
+@PostMapping(value = "/signup/{provider}")
+public CommonResult signupProvider(@ApiParam(value = "서비스 제공자 provider", required = true, defaultValue = "kakao") @PathVariable String provider, @ApiParam(value = "소셜 access_token", required = true) @RequestParam String accessToken,
+                                   @ApiParam(value = "이름", required = true) @RequestParam String name) {
+
+    KakaoProfile profile = kakaoService.getKakaoProfile(accessToken);
+    Optional<User> user = userRepository.findByUidAndProvider(String.valueOf(profile.getId()), provider);
+    if(user.isPresent())
+        throw new UserExistException();
+
+    userRepository.save(User.builder()
+            .uid(String.valueOf(profile.getId()))
+            .provider(provider)
+            .name(name)
+            .roles(Collections.singletonList("ROLE_USER"))
+            .build());
+
+    return responseService.getSuccessResult();
+}
+```
+
+- 이미 가입했을 경우 발생할 예외 밑 핸들러 추가
+```java
+public class UserExistException extends RuntimeException {
+    public UserExistException(String msg, Throwable t) {
+        super(msg, t);
+    }
+    public UserExistException(String msg) {
+        super(msg);
+    }
+    public UserExistException() {
+        super();
+    }
+}
+```
+```java
+@ExceptionHandler(UserExistException.class)
+@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+public CommonResult communicationException(HttpServletRequest request, UserExistException e) {
+    return responseService.getFailResult();
+}
+```
+
 - SignController에 카카오 로그인 기능 추가
 ```java
 @ApiOperation(value = "소셜 로그인", notes = "소셜 회원 로그인을 한다.")
@@ -276,7 +321,9 @@ protected void configure(HttpSecurity http) throws Exception {
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // jwt token으로 인증하므로 세션은 필요없으므로 생성안함.
         .and()
             .authorizeRequests() // 다음 리퀘스트에 대한 사용권한 체크
-                .antMatchers("/*/signin", "/*/signup", "/social/**").permitAll() // 가입 및 인증 주소는 누구나 접근가능
+                .antMatchers("/*/signin", "/*/signin/**",
+                        "/*/signup", "/*/signup/**",
+                        "/social/**").permitAll() // 가입 및 인증 주소는 누구나 접근가능
                 .antMatchers(HttpMethod.GET, "helloworld/**", "/exception/**").permitAll() // hellowworld로 시작하는 GET요청 리소스는 누구나 접근가능
                 .anyRequest().hasRole("USER") // 그외 나머지 요청은 모두 인증된 회원만 접근 가능//
         .and()
