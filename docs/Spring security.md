@@ -28,3 +28,18 @@
 17. ExceptionTranslationFilter
 18. FilterSecurityInterceptor
 19. SwitchUserFilter
+
+## API 인증 및 권한 부여, 제한된 리소스의 요청
+- 인증을 위해 가입(Sign up), 로그인(Sign in) api 구현
+- 가입 시 제한된 리소스에 접근할 수 있는 ROLE_USER 권한을 회원에게 부여
+- Spring security 설정에는 접근 제한이 필요한 리소스에 대해서 ROLE_USER 권한을 가져야 접근 가능하도록 세팅
+- 권한을 가진 회원이 로그인 성공 시엔 리소스에 접근할 수 있는 Jwt 보안 토큰을 발급
+- Jwt 보안 토큰으로 회원은 권한이 필요한 api 리소스를 요청하여 사용
+
+## JWT (Json Web Token)
+- Json 객체를 암호화하여 만든 String값으로 기본적으로 암호화되어 있어 변조하기가 어려움
+- 다른 토큰과 달리 토큰 자체에 데이터를 가지고 있음.
+- 1. api 서버에서는 로그인이 완료된 클라이언트에게 회원을 구분할 수 있는 값을 넣은 Jwt 토큰을 생성하여 발급
+- 2. 클라이언트는 이 Jwt토큰을 이용하여 권한이 필요한 리소스를 서버에 요청하는데 사용
+- 3. api 서버는 클라이언트에게 전달받은 Jwt 토큰이 유효한지 확인하고 담겨있는 회원정보를 확인
+ 
