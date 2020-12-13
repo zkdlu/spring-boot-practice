@@ -2,35 +2,27 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="30089330-d7bf-4c6a-a4b9-153900aeaf59" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__io_jsonwebtoken_jjwt_0_9_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_springframework_boot_spring_boot_starter_security_2_4_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_springframework_security_spring_security_config_5_4_2.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_springframework_security_spring_security_core_5_4_2.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_springframework_security_spring_security_web_5_4_2.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/spring-boot-rest.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/zkdlu/rest/advice/ExceptionAdvice.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/zkdlu/rest/advice/exception/AuthenticationEntryPointException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/zkdlu/rest/advice/exception/EmailSigninFailedException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/zkdlu/rest/config/security/CustomAccessDeniedHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/zkdlu/rest/config/security/JwtAuthenticationFilter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/zkdlu/rest/config/security/JwtTokenProvider.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/zkdlu/rest/config/security/SecurityConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/zkdlu/rest/controller/exception/ExceptionController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/zkdlu/rest/controller/v2/SignController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/zkdlu/rest/service/CustomUserDetailService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/zkdlu/rest/controller/v2/SignControllerTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_code_gson_gson_2_8_6.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/zkdlu/rest/advice/exception/SocialException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/zkdlu/rest/advice/exception/UserExistException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/zkdlu/rest/controller/common/SocialController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/zkdlu/rest/entity/social/KakaoProfile.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/zkdlu/rest/service/KakaoService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/social/login.ftl" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/modules/rest.main.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/rest.main.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/modules/rest.test.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/rest.test.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/spring-boot-rest.iml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/zkdlu/rest/RestApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/zkdlu/rest/RestApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/zkdlu/rest/controller/v2/RestUserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/zkdlu/rest/controller/v2/RestUserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/zkdlu/rest/advice/ExceptionAdvice.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/zkdlu/rest/advice/ExceptionAdvice.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/zkdlu/rest/config/security/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/zkdlu/rest/config/security/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/zkdlu/rest/controller/v2/SignController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/zkdlu/rest/controller/v2/SignController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/zkdlu/rest/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/zkdlu/rest/entity/User.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/zkdlu/rest/repo/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/zkdlu/rest/repo/UserRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/zkdlu/rest/service/ResponseService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/zkdlu/rest/service/ResponseService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -49,7 +41,30 @@
       <state>
         <projects_view>
           <tree_state>
-            <expand />
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="rest" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="rest" type="f1a62948:ProjectNode" />
+                <item name="Source Sets" type="e897c970:GradleViewContributor$SourceSetsNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="rest" type="f1a62948:ProjectNode" />
+                <item name="Source Sets" type="e897c970:GradleViewContributor$SourceSetsNode" />
+                <item name="main" type="396b929e:GradleViewContributor$SourceSetNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="rest" type="f1a62948:ProjectNode" />
+                <item name="Source Sets" type="e897c970:GradleViewContributor$SourceSetsNode" />
+                <item name="main" type="396b929e:GradleViewContributor$SourceSetNode" />
+                <item name="Dependencies" type="6de06a37:ExternalSystemViewDefaultContributor$MyDependenciesNode" />
+              </path>
+            </expand>
             <select />
           </tree_state>
         </projects_view>
@@ -59,10 +74,10 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="JUnit5 Test Class" />
         <option value="JUnit4 Test Class" />
         <option value="Arquillian JUnit Test Class" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -114,7 +129,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.SignControllerTest">
+  <component name="RunManager" selected="Spring Boot.RestApplication">
     <configuration name="SignControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="rest.test" />
       <extension name="coverage">
@@ -225,6 +240,7 @@
       <workItem from="1607846864773" duration="2100000" />
       <workItem from="1607849018305" duration="290000" />
       <workItem from="1607849325611" duration="549000" />
+      <workItem from="1607851414750" duration="3364000" />
     </task>
     <servers />
   </component>

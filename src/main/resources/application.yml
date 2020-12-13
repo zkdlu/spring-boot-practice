@@ -15,3 +15,13 @@ spring:
       ddl-auto: update
   jwt:
     secret: govlepel@$&
+  social:
+    kakao:
+      client_id: eab1c5bb192f3e54dc1e68f6daa281f6
+      redirect: /social/login/kakao
+      url:
+        login: https://kauth.kakao.com/oauth/authorize
+        token: https://kauth.kakao.com/oauth/token
+        profile: https://kapi.kakao.com/v2/user/me
+  url:
+    base: http://localhost:8080

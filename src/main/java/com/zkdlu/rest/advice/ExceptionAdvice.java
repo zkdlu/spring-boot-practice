@@ -1,8 +1,6 @@
 package com.zkdlu.rest.advice;
 
-import com.zkdlu.rest.advice.exception.AuthenticationEntryPointException;
-import com.zkdlu.rest.advice.exception.EmailSigninFailedException;
-import com.zkdlu.rest.advice.exception.UserNotFoundException;
+import com.zkdlu.rest.advice.exception.*;
 import com.zkdlu.rest.entity.CommonResult;
 import com.zkdlu.rest.service.ResponseService;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +16,17 @@ import javax.servlet.http.HttpServletRequest;
 @RestControllerAdvice
 public class ExceptionAdvice {
     private final ResponseService responseService;
+
+    @ExceptionHandler(UserExistException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public CommonResult communicationException(HttpServletRequest request, UserExistException e) {
+        return responseService.getFailResult();
+    }
+
+    @ExceptionHandler(SocialException.class)
+    public CommonResult socialLoginException(HttpServletRequest request, SocialException e) {
+        return responseService.getFailResult();
+    }
 
     @ExceptionHandler(AccessDeniedException.class)
     public CommonResult AccessDeniedException(HttpServletRequest request, AccessDeniedException e) {

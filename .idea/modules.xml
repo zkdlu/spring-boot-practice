@@ -5,7 +5,6 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/rest.iml" filepath="$PROJECT_DIR$/.idea/modules/rest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/rest.main.iml" filepath="$PROJECT_DIR$/.idea/modules/rest.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/rest.test.iml" filepath="$PROJECT_DIR$/.idea/modules/rest.test.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/spring-boot-rest.iml" filepath="$PROJECT_DIR$/.idea/spring-boot-rest.iml" />
     </modules>
   </component>
 </project>
