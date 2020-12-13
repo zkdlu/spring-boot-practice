@@ -273,3 +273,27 @@ public class User implements UserDetails {
     }
 }
 ```
+
+7. UserRepository 수정
+```java
+public interface UserRepository extends JpaRepository<User, Long> {
+    Optional<User> findByUid(String email);
+}
+```
+
+8. 로그인 예외 추가
+```java
+public class EmailSigninFailedException extends RuntimeException {
+    public EmailSigninFailedException(String msg, Throwable t) {
+        super(msg, t);
+    }
+
+    public EmailSigninFailedException(String msg) {
+        super(msg);
+    }
+
+    public EmailSigninFailedException() {
+        super();
+    }
+}
+```
