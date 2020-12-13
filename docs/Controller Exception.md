@@ -27,3 +27,29 @@ public SingleResult<User> findUserById(@ApiParam(value = "회원ID", required = 
 }
 ```
 > 지정한 범위에서 Exception이 발생하면 ExceptionAdvice에 정의한 Exception Handler가 호출 된다.
+
+### 사용자 정의 예외
+1. Exception 클래스 정의
+```java
+public class UserNotFoundException extends RuntimeException {
+    public UserNotFoundException(String msg, Throwable t) {
+        super(msg, t);
+    }
+
+    public UserNotFoundException(String msg) {
+        super(msg);
+    }
+
+    public UserNotFoundException() {
+        super();
+    }
+}
+```
+2. Controller 수정
+```java
+@ApiOperation(value = "회원 단건 조회", notes = "userId로 회원을 조회한다")
+@GetMapping(value = "/user/{id}")
+public SingleResult<User> findUserById(@ApiParam(value = "회원ID", required = true) @PathVariable long id) {
+    return responseService.getSingleResult(userRepository.findById(id).orElseThrow(UserNotFoundException::new));
+}
+```
