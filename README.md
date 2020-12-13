@@ -1,4 +1,5 @@
 ### Freemarker
+
 1. 의존성 추가
 ```gradle
 dependencies {
@@ -38,5 +39,23 @@ public class HelloController {
         return "ftl 파일명";
     }
 }
+```
+
+### H2
+
+1. 의존성 추가
+```gradle
+dependencies {
+  runtimeOnly 'com.h2database:h2'
+}
+```
+2. application.yml에 datasource 설정
+```yml
+spring:
+  datasource:
+    url: jdbc:h2:mem:test-db
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: 
 ```
 
