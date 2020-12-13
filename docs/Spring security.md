@@ -393,28 +393,90 @@ public class RestUserController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
-    @ApiOperation(value = "회원 수정", notes = "회원정보를 수정한다")
-    @PutMapping(value = "/user")
-    public SingleResult<User> modify(
-            @ApiParam(value = "회원번호", required = true) @RequestParam long msrl,
-            @ApiParam(value = "회원아이디", required = true) @RequestParam String uid,
-            @ApiParam(value = "회원이름", required = true) @RequestParam String name) {
-        User user = User.builder()
-                .id(msrl)
-                .uid(uid)
-                .name(name)
-                .build();
-        return responseService.getSingleResult(userRepository.save(user));
-    }
-
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
-    })
     @ApiOperation(value = "회원 삭제", notes = "userId로 회원정보를 삭제한다")
     @DeleteMapping(value = "/user/{id}")
     public CommonResult delete(@ApiParam(value = "회원번호", required = true) @PathVariable long id) {
         userRepository.deleteById(id);
         return responseService.getSuccessResult();
     }
+}
+```
+
+### 예외처리
+1. Jwt 토큰 없이 api 호출
+2. 만료된 Jwt 토큰으로 api 호출
+3. 리소스에 권한이 없는 경우
+
+이 같은 경우를 예상할 수 있는데 실제로 예외가 처리 되지 않는다. 이는 필터링의 순서 때문인데. ControllerAdvise는 Spring이 처리 가능한 영역까지 request가 도달해야 처리할 수 있지만 Spring security는 Spring앞단에서 filter처리가 되기 때문에 위의 exception은 Spring의 DispatcherServlet까지 도달하지 않게된다.
+
+- 1,2번 : 토큰 검증 단에서 프로세스가 끝나기 떄문에 Spring security에서 제공하는 AuthenticationEntryPoint를 상속받아 재정의 한다.
+```java
+@Component
+public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
+    @Override
+    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
+        response.sendRedirect("/exception/entrypoint");
+    }
+}
+```
+> /exception/entrypoint로 포워딩
+
+- ExceptionController 생성
+
+/exception/entrypoint로 들어오면 AuthenticationEntryPointException을 발생시킨다.
+```java
+@RequiredArgsConstructor
+@RestController
+@RequestMapping(value = "/exception")
+public class ExceptionController {
+
+    @GetMapping(value = "/entrypoint")
+    public CommonResult entrypointException() {
+        throw new AuthenticationEntryPointException();
+    }
+}
+```
+
+- AuthenticationEntryPointException 생성
+```java
+public class AuthenticationEntryPointException extends RuntimeException {
+    public AuthenticationEntryPointException(String msg, Throwable t) {
+        super(msg, t);
+    }
+
+    public AuthenticationEntryPointException(String msg) {
+        super(msg);
+    }
+
+    public AuthenticationEntryPointException() {
+        super();
+    }
+}
+```
+
+- ExceptionAdvice에 추가
+```java
+@ExceptionHandler(AuthenticationEntryPointException.class)
+public CommonResult authenticationEntryPointException(HttpServletRequest request, AuthenticationEntryPointException e) {
+    return responseService.getFailResult();
+}
+```
+
+- SecurityConfig에 exceptionHandling과 /exception주소에 대한 perminAll()을 추가한다.
+```java
+@Override
+protected void configure(HttpSecurity http) throws Exception {
+    http.httpBasic().disable() // rest api 이므로 기본설정 사용안함. 기본설정은 비인증시 로그인폼 화면으로 리다이렉트 된다.
+        .csrf().disable() // rest api이므로 csrf 보안이 필요없으므로 disable처리.
+        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // jwt token으로 인증하므로 세션은 필요없으므로 생성안함.
+        .and()
+            .authorizeRequests() // 다음 리퀘스트에 대한 사용권한 체크
+                .antMatchers("/*/signin", "/*/signup").permitAll() // 가입 및 인증 주소는 누구나 접근가능
+                .antMatchers(HttpMethod.GET, "helloworld/**", "/exception/**").permitAll() // hellowworld로 시작하는 GET요청 리소스는 누구나 접근가능
+                .anyRequest().hasRole("USER") // 그외 나머지 요청은 모두 인증된 회원만 접근 가능//
+        .and()
+            .exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint())
+        .and()
+            .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class); // jwt token 필터를 id/password 인증 필터 전에 넣는다
 }
 ```
