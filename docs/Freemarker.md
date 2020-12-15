@@ -26,6 +26,8 @@ spring:
     template-loader-path: classpath:/templates
     suffix: .ftl
 ```
+> suffix만 해줘도 되네
+
 4. Controller 설정
 ```java
 @Controller
