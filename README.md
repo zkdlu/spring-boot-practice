@@ -1,4 +1,5 @@
 ### [1. Freemarker](https://github.com/zkdlu/spring-boot-practice/blob/main/docs/Freemarker.md)
+> 꾸준하게 업데이트 되고 있는 템플릿 엔진은 Thymeleaf, Handlebars
 
 ### [2. H2 + JPA](https://github.com/zkdlu/spring-boot-practice/blob/main/docs/h2-jpa.md)
 
