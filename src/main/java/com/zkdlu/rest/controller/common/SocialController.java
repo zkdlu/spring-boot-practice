@@ -53,6 +53,7 @@ public class SocialController {
      */
     @GetMapping(value = "/kakao")
     public ModelAndView redirectKakao(ModelAndView mav, @RequestParam String code) {
+        System.out.println(code);
         mav.addObject("authInfo", kakaoService.getKakaoTokenInfo(code));
         mav.setViewName("social/redirectKakao");
         return mav;

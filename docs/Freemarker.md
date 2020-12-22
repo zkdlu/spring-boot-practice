@@ -35,8 +35,67 @@ public class HelloController {
 @GetMapping(value = "/helloworld/page")
     public String helloworld(Map model) {
         model.put("message", "hello world");
-
         return "ftl 파일명";
     }
 }
 ```
+
+
+
+### Thymeleaf
+
+1. 의존성 추가
+
+   ```gradle
+   dependencies {
+       implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+       implementation 'org.springframework.boot:spring-boot-starter-web'
+   }
+   ```
+
+2. resources/templates 하위에 html 파일 생성
+
+   ```html
+   <!DOCTYPE html>
+   <html>
+   <head>
+       <meta charset="UTF-8">
+       <title>Thymeleaf 예제</title>
+   </head>
+   <body>
+   <h1>Thymeleaf 예제</h1>
+   <span th:text="${user.userId}"></span><br/>
+   <span th:text="${user.name}"></span><br/>
+   <span th:text="${user.authType}"></span><br/>
+   <span th:text="${user.authType}"></span><br/>
+   </body>
+   </html>
+   ```
+
+3. application.yml에서 view resolver 설정
+
+   ```yml
+   spring:
+     thymeleaf:
+       suffix: .html
+       cache: false
+   ```
+
+   > 배포  할 경우 cache는 true로
+
+4. Controller 설정
+
+   ```java
+   @Controller
+   public class UserController {
+       @GetMapping("/")
+       public String getUser(Model model) {
+           User user = new User("id", "name", "hello");
+           model.addAttribute("user", user);
+           return "test";
+       }
+   }
+   ```
+
+   
+
