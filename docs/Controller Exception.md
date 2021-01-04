@@ -14,10 +14,11 @@ public class ExceptionAdvice {
         return responseService.getFailResult();
     }
 }
-``
+```
 > - @RestControllerAdvice(basePackages = "com.zkdlu.controller") : 예외 발생 시 json 형태로 반환
 > - @ExceptionHandler(Exception.class) : Exceptino이 발생하면 해당 Handler로 처리
 > - @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR) : Exceptino이 발생하면 Response에 Http code를 500으로 설정
+
 2. Controller 수정
 ```java
 @ApiOperation(value = "회원 단건 조회", notes = "userId로 회원을 조회한다")
