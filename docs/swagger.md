@@ -63,4 +63,4 @@ public class UserController {
 > - @Api - Swagger 문서 타이틀
 > - @ApiOperation
 > - @ApiParam
-> - http://localhost:8080/swagger-ui.htm
+> - http://localhost:8080/swagger-ui.html
